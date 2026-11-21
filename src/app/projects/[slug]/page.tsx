@@ -19,9 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
-    return {
-      title: 'Proyecto no encontrado',
-    };
+    return { title: 'Proyecto no encontrado' };
   }
 
   return {
@@ -52,19 +50,16 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <Link
-        href="/projects"
-        className="text-blue-600 hover:underline mb-6 inline-block"
-      >
+      <Link href="/projects" className="nav-link inline-block mb-6">
         ← Volver a Proyectos
       </Link>
 
-      <article>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+      <article className="glass anim-fade-up p-6 md:p-10">
+        <h1 className="neon-text text-3xl md:text-5xl font-extrabold mb-6 pb-1">
           {project.title}
         </h1>
 
-        <div className="relative w-full h-96 mb-8 rounded-lg overflow-hidden">
+        <div className="relative w-full h-72 md:h-96 mb-8 rounded-xl overflow-hidden">
           <Image
             src={project.image}
             alt={project.title}
@@ -75,50 +70,33 @@ export default async function ProjectDetailPage({ params }: Props) {
           />
         </div>
 
-        <p className="text-lg text-gray-700 mb-6">{project.description}</p>
+        <p className="text-main text-lg mb-6">{project.description}</p>
 
         {project.highlights && (
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-8">
+          <ul className="glow-list list-disc pl-6 space-y-2 text-muted mb-8">
             {project.highlights.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         )}
 
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">
-            Tecnologías Utilizadas
-          </h2>
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-main mb-3">Tecnologías Utilizadas</h2>
           <div className="flex flex-wrap gap-2">
             {project.technologies.map((tech) => (
-              <span
-                key={tech}
-                className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-              >
-                {tech}
-              </span>
+              <span key={tech} className="chip">{tech}</span>
             ))}
           </div>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           {project.demoUrl && (
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-            >
+            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               Ver Demo
             </a>
           )}
           {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition"
-            >
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
               Ver Código
             </a>
           )}

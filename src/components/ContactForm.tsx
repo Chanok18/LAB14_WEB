@@ -24,9 +24,7 @@ export default function ContactForm({ toEmail }: Props) {
     return e;
   }
 
-  function handleChange(
-    ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  function handleChange(ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = ev.target;
     setValues((v) => ({ ...v, [name]: value }));
     setErrors((er) => ({ ...er, [name]: undefined }));
@@ -45,108 +43,70 @@ export default function ContactForm({ toEmail }: Props) {
     setSent(true);
   }
 
-  const input =
-    'w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500';
+  const label = 'block text-sm font-semibold text-main mb-1';
+  const err = { color: 'var(--danger)' };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-      className="bg-white p-6 rounded-lg shadow-md space-y-5"
-    >
+    <form onSubmit={handleSubmit} noValidate className="glass p-6 md:p-8 space-y-5">
       <div>
-        <label htmlFor="name" className="block text-sm font-semibold text-gray-800 mb-1">
-          Nombre
-        </label>
+        <label htmlFor="name" className={label}>Nombre</label>
         <input
-          id="name"
-          name="name"
-          type="text"
-          autoComplete="name"
-          value={values.name}
-          onChange={handleChange}
+          id="name" name="name" type="text" autoComplete="name"
+          value={values.name} onChange={handleChange}
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? 'name-error' : undefined}
-          className={input}
+          className="input"
         />
-        {errors.name && (
-          <p id="name-error" className="text-sm text-red-600 mt-1">{errors.name}</p>
-        )}
+        {errors.name && <p id="name-error" className="text-sm mt-1" style={err}>{errors.name}</p>}
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-semibold text-gray-800 mb-1">
-          Correo electrónico
-        </label>
+        <label htmlFor="email" className={label}>Correo electrónico</label>
         <input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          value={values.email}
-          onChange={handleChange}
+          id="email" name="email" type="email" autoComplete="email"
+          value={values.email} onChange={handleChange}
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? 'email-error' : undefined}
-          className={input}
+          className="input"
         />
-        {errors.email && (
-          <p id="email-error" className="text-sm text-red-600 mt-1">{errors.email}</p>
-        )}
+        {errors.email && <p id="email-error" className="text-sm mt-1" style={err}>{errors.email}</p>}
       </div>
 
       <div>
-        <label htmlFor="subject" className="block text-sm font-semibold text-gray-800 mb-1">
-          Asunto
-        </label>
+        <label htmlFor="subject" className={label}>Asunto</label>
         <input
-          id="subject"
-          name="subject"
-          type="text"
-          value={values.subject}
-          onChange={handleChange}
+          id="subject" name="subject" type="text"
+          value={values.subject} onChange={handleChange}
           aria-invalid={!!errors.subject}
           aria-describedby={errors.subject ? 'subject-error' : undefined}
-          className={input}
+          className="input"
         />
-        {errors.subject && (
-          <p id="subject-error" className="text-sm text-red-600 mt-1">{errors.subject}</p>
-        )}
+        {errors.subject && <p id="subject-error" className="text-sm mt-1" style={err}>{errors.subject}</p>}
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-semibold text-gray-800 mb-1">
-          Mensaje
-        </label>
+        <label htmlFor="message" className={label}>Mensaje</label>
         <textarea
-          id="message"
-          name="message"
-          rows={5}
-          maxLength={MAX}
-          value={values.message}
-          onChange={handleChange}
+          id="message" name="message" rows={5} maxLength={MAX}
+          value={values.message} onChange={handleChange}
           aria-invalid={!!errors.message}
           aria-describedby={errors.message ? 'message-error' : undefined}
-          className={input}
+          className="input"
         />
         <div className="flex justify-between mt-1">
           {errors.message ? (
-            <p id="message-error" className="text-sm text-red-600">{errors.message}</p>
+            <p id="message-error" className="text-sm" style={err}>{errors.message}</p>
           ) : (
             <span />
           )}
-          <span className="text-xs text-gray-500">{values.message.length}/{MAX}</span>
+          <span className="text-xs text-muted">{values.message.length}/{MAX}</span>
         </div>
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-      >
-        Enviar mensaje
-      </button>
+      <button type="submit" className="btn btn-primary">Enviar mensaje</button>
 
       {sent && (
-        <p role="status" className="text-sm text-green-700">
+        <p role="status" className="text-sm" style={{ color: 'var(--ok)' }}>
           Se abrió tu aplicación de correo con el mensaje listo para enviar.
           Si no se abrió, escríbeme a {toEmail}.
         </p>

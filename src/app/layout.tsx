@@ -1,9 +1,13 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Background from '@/components/Background';
 import { personalInfo } from '@/lib/data';
 
+export const viewport: Viewport = {
+  themeColor: '#050b1f',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(personalInfo.siteUrl),
@@ -36,9 +40,7 @@ export const metadata: Metadata = {
     siteName: personalInfo.name,
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
+        url: '/perfil.png',
         alt: `${personalInfo.name} - Portafolio`,
       },
     ],
@@ -47,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${personalInfo.name} - ${personalInfo.title}`,
     description: personalInfo.description,
-    images: ['/og-image.jpg'],
+    images: ['/perfil.png'],
   },
   robots: {
     index: true,
@@ -62,17 +64,29 @@ export const metadata: Metadata = {
   },
 };
 
+// Aplica tema y tipografía guardados ANTES de pintar (evita parpadeos)
+const initScript = `(function(){try{var d=document.documentElement;d.dataset.theme=localStorage.getItem('theme')||'dark';d.dataset.font=localStorage.getItem('font')||'modern';}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.font='modern';}})();`;
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body className="flex flex-col min-h-screen">
-        <Header />
-        <main className="grow bg-gray-50">{children}</main>
-        <Footer />
+    <html lang="es" data-theme="dark" data-font="modern" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: initScript }} />
+        <noscript>
+          <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
+      <body>
+        <Background />
+        <div className="relative z-10 flex flex-col min-h-screen">
+          <Header />
+          <main className="grow">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

@@ -10,38 +10,32 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+      className="group glass glass-hover block overflow-hidden p-3 h-full"
     >
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden rounded-xl">
         <Image
           src={project.image}
           alt={project.title}
           fill
           loading="lazy"
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        <span className="card-shine" aria-hidden="true" />
       </div>
 
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+      <div className="p-4">
+        <h3 className="text-xl font-bold text-main mb-2 transition-colors group-hover:text-accent">
           {project.title}
         </h3>
-        <p className="text-gray-600 mb-4 line-clamp-2">{project.description}</p>
+        <p className="text-muted mb-4 line-clamp-2">{project.description}</p>
 
         <div className="flex flex-wrap gap-2">
           {project.technologies.slice(0, 3).map((tech) => (
-            <span
-              key={tech}
-              className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
-            >
-              {tech}
-            </span>
+            <span key={tech} className="chip">{tech}</span>
           ))}
           {project.technologies.length > 3 && (
-            <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-              +{project.technologies.length - 3}
-            </span>
+            <span className="chip">+{project.technologies.length - 3}</span>
           )}
         </div>
       </div>
